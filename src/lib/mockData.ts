@@ -1537,13 +1537,7 @@ export const PREBUILTS: PrebuiltPC[] = [
       "2TB Samsung 990 PRO"
     ]
   },
-];
 
-// ==========================================
-// CASING FANS
-// ==========================================
-
-const CASE_FANS: Product[] = [
   {
     id: 'fan-lianli-uni-sl120',
     name: 'Lian Li UNI FAN SL120 RGB (Black)',
@@ -1617,5 +1611,3 @@ const CASE_FANS: Product[] = [
     specs: { fan_count: 1, height: '120mm', type: 'RGB', airflow: '47.2 CFM' }
   },
 ];
-
-export const ALL_PRODUCTS = [...PRODUCTS, ...CASE_FANS];
