@@ -1394,6 +1394,82 @@ export const PRODUCTS: Product[] = [
       weight: "1.50 Kg",
       warranty: "2 Years International Warranty"
     }
+  },
+
+  // ==========================================
+  // CASE FANS
+  // ==========================================
+  {
+    id: 'fan-lianli-uni-sl120',
+    name: 'Lian Li UNI FAN SL120 RGB (Black)',
+    brand: 'Lian Li',
+    price: 10500,
+    category: 'case-fans',
+    image: 'https://m.media-amazon.com/images/I/61SimpleI0L._AC_SL1000_.jpg',
+    inStock: true,
+    rating: 4.9,
+    condition: 'new',
+    specs: { fan_count: 1, height: '120mm', type: 'RGB', airflow: '58.54 CFM' }
+  },
+  {
+    id: 'fan-corsair-ll120',
+    name: 'Corsair LL120 RGB 120mm',
+    brand: 'CORSAIR',
+    price: 12000,
+    category: 'case-fans',
+    image: 'https://m.media-amazon.com/images/I/81b2Xqg8cML._AC_SL1500_.jpg',
+    inStock: true,
+    rating: 4.8,
+    condition: 'new',
+    specs: { fan_count: 1, height: '120mm', type: 'RGB', airflow: '43.25 CFM' }
+  },
+  {
+    id: 'fan-noctua-nf-a12',
+    name: 'Noctua NF-A12x25 PWM',
+    brand: 'Noctua',
+    price: 14500,
+    category: 'case-fans',
+    image: 'https://m.media-amazon.com/images/I/811q5X7h6wL._AC_SL1500_.jpg',
+    inStock: true,
+    rating: 5.0,
+    condition: 'new',
+    specs: { fan_count: 1, height: '120mm', type: 'Non-RGB', airflow: '60.1 CFM' }
+  },
+  {
+    id: 'fan-arctic-p12',
+    name: 'ARCTIC P12 PWM PST (Black)',
+    brand: 'ARCTIC',
+    price: 3500,
+    category: 'case-fans',
+    image: 'https://m.media-amazon.com/images/I/51A0jU-x7EL._AC_SL1000_.jpg',
+    inStock: true,
+    rating: 4.7,
+    condition: 'new',
+    specs: { fan_count: 1, height: '120mm', type: 'Non-RGB', airflow: '56.3 CFM' }
+  },
+  {
+    id: 'fan-nzxt-f140',
+    name: 'NZXT F140 RGB 140mm',
+    brand: 'NZXT',
+    price: 9800,
+    category: 'case-fans',
+    image: 'https://m.media-amazon.com/images/I/61r5fL2+GLL._AC_SL1500_.jpg',
+    inStock: true,
+    rating: 4.6,
+    condition: 'new',
+    specs: { fan_count: 1, height: '140mm', type: 'RGB', airflow: '89.48 CFM' }
+  },
+  {
+    id: 'fan-cooler-master-halo',
+    name: 'Cooler Master MasterFan MF120 Halo',
+    brand: 'Cooler Master',
+    price: 6500,
+    category: 'case-fans',
+    image: 'https://m.media-amazon.com/images/I/71F8x64Lp6L._AC_SL1500_.jpg',
+    inStock: true,
+    rating: 4.5,
+    condition: 'new',
+    specs: { fan_count: 1, height: '120mm', type: 'RGB', airflow: '47.2 CFM' }
   }
 ];
 
@@ -1538,76 +1614,5 @@ export const PREBUILTS: PrebuiltPC[] = [
     ]
   },
 
-  {
-    id: 'fan-lianli-uni-sl120',
-    name: 'Lian Li UNI FAN SL120 RGB (Black)',
-    brand: 'Lian Li',
-    price: 10500,
-    category: 'case-fans',
-    image: 'https://m.media-amazon.com/images/I/61SimpleI0L._AC_SL1000_.jpg',
-    inStock: true,
-    rating: 4.9,
-    condition: 'new',
-    specs: { fan_count: 1, height: '120mm', type: 'RGB', airflow: '58.54 CFM' }
-  },
-  {
-    id: 'fan-corsair-ll120',
-    name: 'Corsair LL120 RGB 120mm',
-    brand: 'CORSAIR',
-    price: 12000,
-    category: 'case-fans',
-    image: 'https://m.media-amazon.com/images/I/81b2Xqg8cML._AC_SL1500_.jpg',
-    inStock: true,
-    rating: 4.8,
-    condition: 'new',
-    specs: { fan_count: 1, height: '120mm', type: 'RGB', airflow: '43.25 CFM' }
-  },
-  {
-    id: 'fan-noctua-nf-a12',
-    name: 'Noctua NF-A12x25 PWM',
-    brand: 'Noctua',
-    price: 14500,
-    category: 'case-fans',
-    image: 'https://m.media-amazon.com/images/I/811q5X7h6wL._AC_SL1500_.jpg',
-    inStock: true,
-    rating: 5.0,
-    condition: 'new',
-    specs: { fan_count: 1, height: '120mm', type: 'Non-RGB', airflow: '60.1 CFM' }
-  },
-  {
-    id: 'fan-arctic-p12',
-    name: 'ARCTIC P12 PWM PST (Black)',
-    brand: 'ARCTIC',
-    price: 3500,
-    category: 'case-fans',
-    image: 'https://m.media-amazon.com/images/I/51A0jU-x7EL._AC_SL1000_.jpg',
-    inStock: true,
-    rating: 4.7,
-    condition: 'new',
-    specs: { fan_count: 1, height: '120mm', type: 'Non-RGB', airflow: '56.3 CFM' }
-  },
-  {
-    id: 'fan-nzxt-f140',
-    name: 'NZXT F140 RGB 140mm',
-    brand: 'NZXT',
-    price: 9800,
-    category: 'case-fans',
-    image: 'https://m.media-amazon.com/images/I/61r5fL2+GLL._AC_SL1500_.jpg',
-    inStock: true,
-    rating: 4.6,
-    condition: 'new',
-    specs: { fan_count: 1, height: '140mm', type: 'RGB', airflow: '89.48 CFM' }
-  },
-  {
-    id: 'fan-cooler-master-halo',
-    name: 'Cooler Master MasterFan MF120 Halo',
-    brand: 'Cooler Master',
-    price: 6500,
-    category: 'case-fans',
-    image: 'https://m.media-amazon.com/images/I/71F8x64Lp6L._AC_SL1500_.jpg',
-    inStock: true,
-    rating: 4.5,
-    condition: 'new',
-    specs: { fan_count: 1, height: '120mm', type: 'RGB', airflow: '47.2 CFM' }
-  },
+
 ];

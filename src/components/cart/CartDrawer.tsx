@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect } from "react";
 
 export function CartDrawer() {
-    const { cart, isCartOpen, toggleCart, removeFromCart, updateQuantity, getCartTotal } = useBuilderStore();
+    const { cart, isCartOpen, toggleCart, removeFromCart, updateQuantity, getCartTotal, addOrder, clearCart } = useBuilderStore();
 
     // Prevent body scroll when drawer is open
     useEffect(() => {
@@ -25,10 +25,29 @@ export function CartDrawer() {
     const formatPrice = (price: number) => new Intl.NumberFormat('en-LK', { style: 'currency', currency: 'LKR', maximumFractionDigits: 0 }).format(price);
 
     const handleCheckout = () => {
+        // 1. Create Order Object
+        const newOrder = {
+            id: `#ORD-${Date.now().toString().slice(-6)}`,
+            date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
+            items: [...cart],
+            total: total,
+            status: 'Processing' as const,
+        };
+
+        // 2. Save to Store
+        addOrder(newOrder);
+
+        // 3. Generate WhatsApp Link
         const itemsList = cart.map(item => `- ${item.name} (x${item.quantity}) - ${formatPrice(item.price * item.quantity)}`).join('%0A');
         const totalText = `Total: ${formatPrice(total)}`;
-        const message = `Hi, I want to confirm my order:%0A%0A${itemsList}%0A%0A${totalText}%0A%0APlease confirm availability.`;
+        const message = `Hi, I want to confirm my order:%0A%0AOrder ID: ${newOrder.id}%0A%0A${itemsList}%0A%0A${totalText}%0A%0APlease confirm availability.`;
+
+        // 4. Open WhatsApp
         window.open(`https://wa.me/94771234567?text=${message}`, '_blank');
+
+        // 5. Clear Cart & Close
+        clearCart();
+        toggleCart();
     };
 
     return (

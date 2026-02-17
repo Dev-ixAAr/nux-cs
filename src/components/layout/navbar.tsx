@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { useBuilderStore } from "@/store/useBuilderStore";
 import { CartDrawer } from "../cart/CartDrawer";
 import { SearchOverlay } from "../search/SearchOverlay";
+import { MobileMenu } from "./MobileMenu";
 import { NeonButton } from "../ui/neon-button";
 
 const NAV_LINKS = [
@@ -100,9 +101,9 @@ export function Navbar() {
             </Link>
 
             {/* USER - Desktop Only */}
-            <button className="text-muted-foreground hover:text-cyan-400 transition-colors p-2 hidden md:block">
+            <Link href="/profile" className="text-muted-foreground hover:text-cyan-400 transition-colors p-2 hidden md:block">
               <User className="h-5 w-5" />
-            </button>
+            </Link>
 
             {/* CART */}
             <button
@@ -120,59 +121,14 @@ export function Navbar() {
             {/* MOBILE MENU TOGGLE */}
             <button
               className="md:hidden text-muted-foreground hover:text-white p-2"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              onClick={() => setIsMobileMenuOpen(true)}
             >
-              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              <Menu className="h-6 w-6" />
             </button>
           </div>
         </div>
 
-        {/* MOBILE MENU DROPDOWN */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="md:hidden absolute top-16 left-0 w-full border-b border-white/10 bg-black/95 backdrop-blur-xl overflow-hidden shadow-2xl"
-            >
-              <div className="flex flex-col p-4 space-y-4">
-                {NAV_LINKS.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={cn(
-                      "text-lg font-medium p-2 rounded-lg transition-colors",
-                      pathname === link.href
-                        ? "bg-white/10 text-cyan-400"
-                        : "text-muted-foreground hover:text-white hover:bg-white/5"
-                    )}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-
-                {/* Mobile Extra Links */}
-                <div className="pt-4 mt-2 border-t border-white/10 flex flex-col gap-3">
-                  <Link href="/compare" className="flex items-center gap-3 text-muted-foreground hover:text-white p-2">
-                    <Scale className="h-5 w-5" />
-                    <span>Compare Products ({mounted ? compareList.length : 0})</span>
-                  </Link>
-                  <button className="flex items-center gap-3 text-muted-foreground hover:text-white p-2">
-                    <User className="h-5 w-5" />
-                    <span>Sign In</span>
-                  </button>
-
-                  <Link href="/products/laptops" className="w-full">
-                    <NeonButton variant="primary" className="w-full justify-center">
-                      Shop Now
-                    </NeonButton>
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
       </header>
     </>
   );

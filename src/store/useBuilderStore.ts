@@ -17,6 +17,14 @@ export interface BuilderItem {
   quantity: number;
 }
 
+export interface Order {
+  id: string;
+  date: string;
+  items: CartItem[];
+  total: number;
+  status: 'Pending' | 'Completed' | 'Processing';
+}
+
 interface BuilderState {
   // Builder State
   selectedParts: Record<string, BuilderItem[]>;
@@ -28,6 +36,9 @@ interface BuilderState {
   cart: CartItem[];
   isCartOpen: boolean;
 
+
+  orders: Order[];
+
   // Compare State
   compareList: Product[];
 
@@ -37,6 +48,10 @@ interface BuilderState {
   clearBuild: () => void;
   getCategoryCount: (categorySlug: string) => number;
   canAddPart: (categorySlug: string) => boolean;
+
+  // Order Actions
+  addOrder: (order: Order) => void;
+
 
   // Cart Actions
   addToCart: (product: Product) => void;
@@ -130,6 +145,11 @@ export const useBuilderStore = create<BuilderState>()(
         // Initial Cart State
         cart: [],
         isCartOpen: false,
+
+
+
+        // Initial Orders State
+        orders: [],
 
         // Initial Compare State
         compareList: [],
@@ -237,6 +257,11 @@ export const useBuilderStore = create<BuilderState>()(
             return currentCount < 9;
           }
           return true;
+        },
+
+        // --- ORDER ACTIONS ---
+        addOrder: (order) => {
+          set((state) => ({ orders: [order, ...state.orders] }));
         },
 
         // --- CART ACTIONS ---
