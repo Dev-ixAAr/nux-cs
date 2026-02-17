@@ -1,0 +1,236 @@
+// ============================================================
+// PRISMA SCHEMA — Premium PC Shop
+// ============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================================
+// ENUMS
+// ============================================================
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  CUSTOMER
+}
+
+enum Condition {
+  NEW
+  USED
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  CANCELLED
+  REFUNDED
+}
+
+enum OrderType {
+  ONLINE
+  POS
+}
+
+enum PaymentMethod {
+  CASH
+  CARD
+  BANK_TRANSFER
+  ONLINE_PAYMENT
+}
+
+// ============================================================
+// USER MODEL
+// ============================================================
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(CUSTOMER)
+  phone        String?
+  address      String?
+  avatar       String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  orders Order[]
+
+  @@map("users")
+}
+
+// ============================================================
+// PRODUCT & CATEGORY MODELS
+// ============================================================
+
+model Category {
+  id       String    @id @default(cuid())
+  name     String
+  slug     String    @unique
+  image    String
+  products Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id            String    @id @default(cuid())
+  name          String
+  brand         String
+  price         Float
+  costPrice     Float?
+  categoryId    String
+  category      Category  @relation(fields: [categoryId], references: [id])
+  condition     Condition @default(NEW)
+  stock         Int       @default(0)
+  inStock       Boolean   @default(true)
+  rating        Float     @default(0)
+  badge         String?
+  description   String?
+  image         String    // Primary image URL
+  images        String[]  // Additional image URLs
+  serialNumbers String[]  // Tracked serial numbers
+  specs         Json?     // Flexible specs (detailedSpecs, features, etc.)
+  features      String[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  componentSpec ComponentSpec?
+  orderItems    OrderItem[]
+
+  @@index([categoryId])
+  @@index([brand])
+  @@index([condition])
+  @@index([inStock])
+  @@map("products")
+}
+
+// ============================================================
+// PC BUILDER — COMPONENT SPEC MODEL
+// Typed columns for compatibility queries (socket matching, etc.)
+// ============================================================
+
+model ComponentSpec {
+  id           String  @id @default(cuid())
+  productId    String  @unique
+  product      Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  // CPU / Motherboard
+  socket       String? // LGA1700, AM5, AM4
+  chipset      String? // Z790, B650, X670E
+
+  // Motherboard / RAM
+  memoryType   String? // DDR4, DDR5
+  formFactor   String? // ATX, mATX, E-ATX, ITX
+
+  // Motherboard limits
+  memorySlots  Int?
+  storageSlots Int?
+
+  // CPU
+  coreCount    Int?
+  baseClock    String?
+  boostClock   String?
+
+  // GPU
+  vram         String? // 8GB, 12GB, 24GB
+  gpuLength    Int?    // Length in mm for case clearance
+
+  // Power
+  wattage      Int?    // TDP / Power draw in watts
+
+  // RAM
+  capacity     String? // 16GB, 32GB, 64GB
+  speed        String? // 6000MT/s, 3200MT/s
+  latency      String? // CL30, CL16
+
+  // PSU
+  efficiency   String? // 80+ Gold, 80+ Platinum
+  modular      String? // Full, Semi, No
+  psuStandard  String? // ATX 3.0
+
+  // Cooler
+  socketSupport String[] // Array of supported sockets
+  radiatorSize  String?  // 240mm, 360mm
+  coolerHeight  String?  // For air cooler clearance
+  fanCount      Int?
+
+  // Storage
+  storageType   String?  // NVMe, SATA SSD, HDD
+  readSpeed     String?
+
+  // Case
+  casePanels    String?
+  caseAirflow   String?
+
+  // Condition
+  conditionNote String?  // "Tray Unit", "Repasted", etc.
+
+  @@map("component_specs")
+}
+
+// ============================================================
+// ORDER MODELS
+// ============================================================
+
+model Order {
+  id            String        @id @default(cuid())
+  userId        String?
+  user          User?         @relation(fields: [userId], references: [id])
+  items         OrderItem[]
+  subtotal      Float
+  tax           Float         @default(0)
+  total         Float
+  status        OrderStatus   @default(PENDING)
+  paymentMethod PaymentMethod @default(CASH)
+  orderType     OrderType     @default(ONLINE)
+  customerName  String?       // For POS walk-in customers (no user account)
+  customerPhone String?
+  notes         String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([orderType])
+  @@index([createdAt])
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  unitPrice Float
+
+  @@index([orderId])
+  @@index([productId])
+  @@map("order_items")
+}
+
+// ============================================================
+// SITE SETTINGS (Singleton pattern — single row)
+// ============================================================
+
+model SiteSettings {
+  id           String  @id @default("default")
+  storeName    String  @default("NEXUS PC")
+  heroVideoUrl String  @default("")
+  currency     String  @default("LKR")
+  contactPhone String?
+  contactEmail String?
+  address      String?
+
+  @@map("site_settings")
+}
